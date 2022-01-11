@@ -6,6 +6,11 @@ const app = express();
 app.use(express.json());
 const port = 3000;
 
+app.use((req, res, next) => {
+  console.log("Hello from the middleware ");
+  next();
+})
+
 const tours = JSON.parse(
   fs.readFileSync(`${__dirname}/data/tours-simple.json`)
 );
