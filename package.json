@@ -4,7 +4,7 @@
   "description": "I use node, express and Mongo DB",
   "main": "app.js",
   "scripts": {
-    "start:dev": "nodemon server.js",
+    "start": "nodemon server.js",
     "start:prod": "NODE_ENV=production nodemon server.js"
   },
   "author": "Özgün Özdemir",
@@ -12,6 +12,7 @@
   "dependencies": {
     "dotenv": "^11.0.0",
     "express": "^4.17.2",
+    "mongoose": "^6.1.6",
     "morgan": "^1.10.0"
   },
   "devDependencies": {
