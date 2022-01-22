@@ -10,25 +10,39 @@ const Tour = require("./../models/tourModel");
 //   next();
 // }
 
-exports.getAllTours = (req, res) => {
-  res.status(200).json({
-    status: "success",
-    // data: {
-    //   tours,
-    // },
-  });
+exports.getAllTours = async (req, res) => {
+  try {
+    const tours = await Tour.find();
+    res.status(200).json({
+      status: "success",
+      result: tours.length,
+      data: {
+        tours,
+      },
+    });
+  } catch (err) {
+    res.status(404).json({
+      status: "fail",
+      message: err,
+    });
+  }
 };
 
-exports.getTour = (req, res) => {
-  const id = req.params.id * 1;
-  // const tour = tours.find((item) => item.id === id);
-
-  res.status(200).json({
-    status: "success",
-    // data: {
-    //   tour,
-    // },
-  });
+exports.getTour = async (req, res) => {
+  try {
+    const tours = await Tour.findById(req.params.id);
+    res.status(200).json({
+      status: "success",
+      data: {
+        tours,
+      },
+    });
+  } catch (err) {
+    res.status(404).json({
+      status: "fail",
+      message: err,
+    });
+  }
 };
 
 exports.createTour = async (req, res) => {
@@ -45,10 +59,10 @@ exports.createTour = async (req, res) => {
       },
     });
   } catch (err) {
-      res.status(400).json({
-        status: 'fail',
-        message: 'Invalid data sent!'
-      })
+    res.status(400).json({
+      status: "fail",
+      message: "Invalid data sent!",
+    });
   }
 };
 
