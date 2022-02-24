@@ -5,6 +5,12 @@ const handleCastErrorDB = err => {
   return new AppError(message, 400)
 }
 
+const handleDublicateFieldsDB = err => {
+  const value = err.keyValue.name;
+  const message = `Dublicate field value: ${value}. Please use another value!`;
+  return new AppError(message, 400);
+}
+
 const sendErrorDev = (err, res) => {
   res.status(err.statusCode).json({
     status: err.status,
@@ -16,7 +22,7 @@ const sendErrorDev = (err, res) => {
 
 const sendErrorProd = (err, res) => {
   // Operational, trusted error: send message to client
-  if(err.isOperation) {
+  if(err.isOperational) {
     res.status(err.statusCode).json({
       status: err.status,
       message: err.message,
@@ -45,6 +51,7 @@ module.exports = (err, req, res, next) => {
     console.log(error)
 
     if(error.name === 'CastError') error =  handleCastErrorDB(error)
+    if(error.code === 11000) error = handleDublicateFieldsDB(error)
 
     sendErrorProd(error, res)
   }
